@@ -11,8 +11,6 @@ use App\Entity\Book;
 use App\Form\BookType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
-
-
 class HomeController extends AbstractController
 {
 
@@ -27,7 +25,6 @@ class HomeController extends AbstractController
      */
     public function index(Request $request)
     {
-
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
 
@@ -35,20 +32,16 @@ class HomeController extends AbstractController
         $message = null;
         if($form->isSubmitted() && $form->isValid()){
             $book = $form->getData();
-            
-        try{
-            $this->em->persist($book);
-            $this->em->flush();
-        }catch(UniqueConstraintViolationException $e){
-            $message = 'Cet ouvrage a déjà été enregistré !';
-            return $this->render('home/index.html.twig', [
-                'form_book' => $form->createView(),
-                'message' => $message
-            ]);
-        }
-
-            
-
+            try{
+                $this->em->persist($book);
+                $this->em->flush();
+            }catch(UniqueConstraintViolationException $e){
+                $message = 'Cet ouvrage a déjà été enregistré !';
+                return $this->render('home/index.html.twig', [
+                    'form_book' => $form->createView(),
+                    'message' => $message
+                ]);
+            }
         }
 
         return $this->render('home/index.html.twig', [
@@ -61,9 +54,7 @@ class HomeController extends AbstractController
      */
     public function bookList(Request $request)
     {
-
         $books = $this->em->getRepository(Book::Class)->findAll();
-
 
         return $this->render('home/book_list.html.twig', [
             'books' => $books,
