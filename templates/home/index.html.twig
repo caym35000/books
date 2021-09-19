@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrer un livre{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-book">
+            <h1>Formulaire pour enregistrer un livre</h1>
+            {% if message is defined%}
+                <div class="alert alert-danger" role="alert">
+                    {{message}}
+                </div>
+            {% endif %}
+            {{form(form_book)}}
+        </div>
+    </div>
+</div>
+{% endblock %}
